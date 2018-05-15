@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+
+    <%= stylesheet_link_tag "application.css" %>
+    <% total_comment = Comment.count %>
+    <% last_page = (total_comment / 15) + 1 %>
+    <% if !params[:p] %>
+    <% page = 1 %>
+    <% else %>
+    <% page = params[:p] %>
+    <% end %>
+
+
+
+  <body>
+	<% if !params['page']
+      @comments =  Comment.limit(15)
+	   else
+	     @comments =  Comment.limit(15).offset(15 * params['p'].to_i)
+	   end
+    %>
+	  <%= render "/layouts/header" %>
+  	<div class="container">
+  		<h2> Comments </h2>
+	  	 <% @comments.each do |item| %>
+	  	 <% post = Article.where(id: item[:post_id]).take %>
+	    <div class="comment">
+	    	<div class="comment-details">
+	    		<%= User.where(id: item[:user_id]).take[:username]%> <%= item[:created_at] %> on <a href = 'item?id=<%=post[:id]%>'><%= post[:title] %></a>
+	    	</div>
+	    	<div class="comment-text" >
+	  			<%= item[:content] %>
+	  		</div>
+	  		
+	  	</div>
+	  <% end %>
+	  </div>
+
+
+	<% if page != last_page %>
+		<a href="/newcomments?p=<%= page.to_i+1 %>" class="btn">More</a>
+	<% end %>
+	 
+
+
+
+
+	  <%= render "/layouts/footer" %>
+  </body>
+</html>

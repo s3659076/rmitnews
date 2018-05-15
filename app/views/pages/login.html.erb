@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Login page</title>
+    <%= stylesheet_link_tag "application.css" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%
+  
+        if params['created_success'] == 'true'
+          message = 'User created'
+        end
+
+        if params['login_success'] == 'false'
+          message = 'Username/password combination not found'
+        end
+        
+    %>
+    <%= render "/layouts/header" %>
+      <div class="banner-text"><%= message %> </div>
+  		<form class="form" action="/user/create" method="post">
+  			<h2> Register </h2>
+  			 <label ><b>Username</b></label>
+
+			    <input type="text" placeholder="Enter Username" name="username" required><br>
+			    <input type="hidden" name="job" value="register">
+			    <label ><b>Password</b></label>
+			    <input type="password" placeholder="Enter Password" name="password" required><br>
+
+			    <button>Register</button>
+  		</form>
+  		<form class="form" action="/user/login" method="post">
+  			<h2> Login </h2>
+  			 <label ><b>Username</b></label>
+
+			    <input type="text" placeholder="Enter Username" name="username" required><br>
+			    <input type="hidden" name="job" value="login">
+			    <label ><b>Password</b></label>
+			    <input type="password" placeholder="Enter Password" name="password" required><br>
+
+			    <button >Login</button>
+  		</form>
+
+
+
+
+  	  <%= render "/layouts/footer" %>
+  </body>
+ 
+</html>

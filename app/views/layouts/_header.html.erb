@@ -1,0 +1,16 @@
+
+
+<div class="header">
+	 	<div class="nav-logo"><img src="https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/0000/6056/brand.gif?itok=jJIhUXX9" alt="RMIT logo"></div>
+
+	 	<div class="nav-items">
+	 		<div class="nav-item"><a href="/">Home</a></div>
+	 		<div class="nav-item"><a href="/newcomments">Comments</a></div>
+	 		<div class="nav-item"><a href="/submit">Submit</a></div>
+	 		<% if !session[:user_id] %>
+	 			<div class="nav-item"><a href="/login">Login</a></div>
+	 		<% else %>
+	 			<div class="nav-item"><a href="/user/logout">Logout</a></div>
+	 		<% end %>
+	 	</div>
+</div>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% title 'Submit a news article' %>
+    <%= csrf_meta_tags %>
+   <%= stylesheet_link_tag "application.css" %>
+  </head>
+  <body>
+      <%= render "/layouts/header" %>
+  <div class="container">
+
+    <h2> Submit a news article </h2>
+
+  	<% if !session[:user_id] %>
+    <span> You need to <a href="/login">login</a> first </span>
+    <% else %>
+  	<form id="submit-form" method="post" action="/article/create">
+  		<input type="text" placeholder="News title" name="post-title" required><br>
+  		<input type="text" placeholder="New URL" name="post-content" required><br>
+  		<button>Submit</button>
+  	</form>
+    <% end %>
+  </div>
+  	<%= render "/layouts/footer" %>
+  </body>
+
+</html>

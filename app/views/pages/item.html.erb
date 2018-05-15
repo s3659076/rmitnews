@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<script>
+    <% if !params['id'] %>
+
+    window.location.replace("/")
+    <% end %>
+    <% if !Article.exists?(params[:id]) %>
+    window.location.replace("/")
+    <% end %>
+    <% post = Article.where(id: params[:id]).take %>
+    
+	</script>
+
+	
+
+  <head>
+    	<% content_for :title, post[:title] %>
+    <% stylesheet_link_tag "application.css" %>
+    
+	
+  </head>
+
+
+		<body>
+			 <%= render "/layouts/header" %>
+			<div class='container' >
+			<div class="post">
+			 <div class="post-title lg-text"><h1><a href='<%= post[:content] %>'><%= post[:title] %></a></h1></div>
+			 <div class="sm-text"> submitted by <%= User.where(id: post[:user_id]).take['username']%>  at <%= post[:created_at] %> </div>
+			   	<% if !session[:user_id] %>
+			    <span> You need to <a href="/login">login</a> to post comment </span>
+			    <% else %>
+			 </div>
+			 <form id="new-cmt" method="post" action="/comment/new">
+		  		New comment<br>
+		  		<textarea type="text" placeholder="Your comment" name="comment_content"  rows="10" cols="50" required></textarea><br>
+		  		<input type="hidden"  name="post_id" value="<%= params[:id] %>">
+		  		<input type="hidden"  name="user_id" value="<%= session[:user_id] %>">
+		  		<input type="hidden"  name="redirect_url" value="/item?id=<%= params[:id] %>">
+		  		<button>Submit</button>
+		  	</form>
+		  	<% end %>
+		  	<h1> Comments </h1>
+		  	<% comments = Comment.where(post_id: params['id']) %>
+		  	<% comments.each do |comment| %>
+		  		 <div class="comment">
+			    	<div class="comment-details">
+			    		<%= User.where(id: comment[:user_id]).take[:username]%> <%= comment[:created_at] %>
+			    	</div>
+			    	<div class="comment-text" >
+			  			<%= comment[:content] %>
+			  		</div>
+			  		
+			  	</div>
+		  	<%end %>
+		  </div>
+			  <%= render "/layouts/footer" %>
+
+
+	  </body>
+</html>

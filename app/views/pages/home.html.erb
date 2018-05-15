@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Ruby on Rails assignment</title>
+    <%= stylesheet_link_tag "application.css" %>
+    <% total_post = Article.count %>
+    <% last_page = (total_post / 10) + 1 %>
+    <% if !params[:p] %>
+    <% page = 1 %>
+    <% else %>
+    <% page = params[:p] %>
+    <% end %>
+
+  </head>
+
+  <body>
+	<% if !params[:p]
+      @post =  Article.limit(10)
+
+	   else
+
+	     @post =  Article.limit(10).offset(10 * (params['p'].to_i-1) )
+
+	   end
+    %>
+	  <%= render "/layouts/header" %>
+  	<div class="container">
+	  	 <% @post.each do |item| %>
+	    <div class="post-preview">
+	    	<div class="lg-txt">
+	  			<a href='/item?id=<%=item['id']%>'><%= item['title'] %></a>
+	  		</div>
+	  		<div class="sm-txt">
+	  			submitted by <%= User.where(id: item[:user_id]).take['username']%>  at <%= item['created_at'] %>
+	  		</div>
+	  	</div>
+	  <% end %>
+
+	  
+	  </div>
+	  <div style="    padding-left: 100px; margin-bottom: 100px; " >
+	 	<% if page.to_i != last_page %>
+			<a href="/?p=<%= page.to_i+1 %>"  style="float:left"><button>More</button></a>
+		<% end %>
+	</div>
+
+
+	  
+
+
+	 
+
+
+	  <%= render "/layouts/footer" %>
+  </body>
+</html>
